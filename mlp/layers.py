@@ -12,6 +12,8 @@ methods for getting and setting parameter and calculating gradients with
 respect to the layer parameters.
 """
 
+from doctest import master
+from sys import orig_argv
 import numpy as np
 import mlp.initialisers as init
 from mlp import DEFAULT_SEED
@@ -663,8 +665,11 @@ class DropoutLayer(StochasticLayer):
             outputs: Array of layer outputs of shape (batch_size, output_dim).
         """
         if stochastic:
-            self.mask = ((np.random.rand(inputs.shape[1]*inputs.shape[2]*inputs.shape[3]) > (1 - self.incl_prob))*1)
-            return (inputs.reshape(inputs.shape[0], inputs.shape[1]*inputs.shape[2]*inputs.shape[3]) * self.mask).reshape(inputs.shape[0], inputs.shape[1],inputs.shape[2], inputs.shape[3])
+            if self.share_across_batch:
+                self.mask = (self.rng.uniform(0,1,(1,)+inputs[0].shape) < self.incl_prob)*1
+            else:
+                self.mask = (self.rng.uniform(0,1,inputs.shape) < self.incl_prob)*1
+            return inputs * self.mask
         else: 
             return inputs * self.incl_prob
         
@@ -687,7 +692,8 @@ class DropoutLayer(StochasticLayer):
             Array of gradients with respect to the layer inputs of shape
             (batch_size, input_dim).
         """
-        return outputs * self.mask
+
+        return grads_wrt_outputs * self.mask
 
     def __repr__(self):
         return 'DropoutLayer(incl_prob={0:.1f})'.format(self.incl_prob)

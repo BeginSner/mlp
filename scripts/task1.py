@@ -36,7 +36,7 @@ def ploting(stats_list, keys_list, stats_interval, hidden_num_list):
    for index, hidden_num in enumerate(hidden_num_list):
       for k in ['error(train)', 'error(valid)']:
          ax_1.plot(np.arange(1, stats_list[index].shape[0]) * stats_interval, 
-                  stats_list[index][1:, keys_list[index][k]], label=k+'depth {}'.format(hidden_num))
+                  stats_list[index][1:, keys_list[index][k]], label=k+'width {}'.format(hidden_num))
    ax_1.legend(loc=0)
    ax_1.set_xlabel('Epoch number')
    ax_1.set_ylabel('Error')
@@ -47,10 +47,14 @@ def ploting(stats_list, keys_list, stats_interval, hidden_num_list):
    for index, hidden_num in enumerate(hidden_num_list):
       for k in ['acc(train)', 'acc(valid)']:
          ax_2.plot(np.arange(1, stats_list[index].shape[0]) * stats_interval, 
-                  stats_list[index][1:, keys_list[index][k]], label=k+'depth {}'.format(hidden_num))
+                  stats_list[index][1:, keys_list[index][k]], label=k+'width {}'.format(hidden_num))
    ax_2.legend(loc=0)
    ax_2.set_xlabel('Epoch number')
-   ax_2.set_xlabel('Accuracy')
+   ax_2.set_ylabel('Accuracy')
+   fig_1.tight_layout()
+   fig_1.savefig("one_hidden_layer_error.pdf")
+   fig_2.tight_layout()
+   fig_2.savefig("one_hidden_layer_acc.pdf")
    plt.show()
    return fig_1, ax_1, fig_2, ax_2
 
@@ -124,7 +128,7 @@ def train_and_plot(params):
          train_data.reset()
          valid_data.reset()
    # plot
-   fig_1, ax_1, fig_2, ax_2 = ploting(stats_list, keys_list, params['stats_interval'], hidden_num_list = params['num_layers'])
+   fig_1, ax_1, fig_2, ax_2 = ploting(stats_list, keys_list, params['stats_interval'], hidden_num_list = params['hidden_dim_list'])
 
 
 
@@ -139,8 +143,8 @@ if __name__ == "__main__":
    stats_interval = 1,
    input_dim = 784, 
    output_dim = 47,
-   hidden_dim_list = [128],
+   hidden_dim_list = [32,64,128],
    seed = 11102019,
-   num_layers = [1, 2, 3])
+   num_layers = [1])
 
    _ = train_and_plot(params)

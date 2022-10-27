@@ -1,5 +1,5 @@
 %% REPLACE sXXXXXXX with your student number
-\def\studentNumber{sXXXXXXX}
+\def\studentNumber{s2298839}
 
 
 %% START of YOUR ANSWERS
@@ -32,12 +32,16 @@ tasks that it was intended for}
 
 %% Question 2:
 \newcommand{\questionTwo} {
-\youranswer{Question 2 - Summarise the effect increasing width and depth of the architecture had on overfitting}
+\youranswer{aggravates the effects of overfitting. }
 }
 
 %% Question 3:
 \newcommand{\questionThree} {
-\youranswer{Question 3 - Summarise what your results show you about the effect of the tested approaches on overfitting and the performance of the trained model}
+\youranswer{the use of dropout can reduce the impact of overfitting. When the probability of a neuron to dropout 
+increases, the gap between training error and validation error will be smaller. However, the performance of the 
+model(we think higher validation accuracy means better performance) gets worse when using dropout. 
+Meanwhile, the use of either L1 penalty or L2 penalty has no effect on problem of overfitting, but it will 
+severely degrades the performance of model.}
 }
 
 %% Question 4:
@@ -61,13 +65,18 @@ naked person(in new data set) as non-human, despite the person has enough common
 
 %% Question 6:
 \newcommand{\questionSix} {
-\youranswer{Question 6 - Explain the relevance of "network capacity" to overfitting}
+\youranswer{When the "network capacity"(the width and depth of a network) becomes larger, we think the 
+network is more complex. Complex network has a more powerful ability to fit the data, which often demonstrated 
+by higher training accuracy. However, too many network parameters will lead to the model fitting "too close"
+to the training data, which means the model extracts more information than it should do. So when the model is 
+applied on new data, it may perform much worse than on the training data set. And the gap between the performance 
+on training and validation dataset is called overfitting problem.}
 }
 
 %% Question 7:
 \newcommand{\questionSeven} {
 \youranswer{The Fig.1a contains the accuracy(training and validation) by epoch and the Fig.1b 
-contrains the error(training and validation)by epoch, the the range of epoch is from 0 to 100. 
+contrains the error(training and validation)by epoch, the range of epoch is from 0 to 100. 
 In Fig.1a, the training accuracy increases fast before epoch 10 and after that it increases more 
 slowly and get to the peak of about 0.950 at epoch 90. The validation accuracy increases at the 
 beginning of training and reaches the maximum of 0.835 at around epoch 10. After epoch 10 the validation 
@@ -75,18 +84,27 @@ continuous to decline to 0.810.
 In Fig.1b, the training error decreases fast before epooch 10 and after that it decreases more slowly 
 and get to the minimum of about 0.05 at epoch 90. The validation error decreases and get to the minimum 
 of 0.5 at epoch 10. After epoch 10, the validation error grows almost linearly with respect to epoch and 
-grows rapidly}
+grows rapidly.
+So the overfitting happens at epoch 10, and after that the gap between training error and validation error 
+gets larger and larger.}
 }
 
 %% Question 8:
 \newcommand{\questionEight} {
-\youranswer{Question 8 - Explain your network width experiment results by using the relevant figure and table}
+\youranswer{When using one hidden layer as training model, the $64$ hidden units layer performs
+best(\textit{Table 1}) because it has the highest validation accuracy. However, the gap between 
+training error and validation error increases with the number of units(\textit{Fig 2b}). In particular, 
+after epoch $10$, the gap becomes larger with the increase of epoch number.
+    }
 }
 
 %% Question 9:
 \newcommand{\questionNine} {
-\youranswer{Question 9 - Discuss whether varying width affects the results in a consistent way, and whether the results are expected and match well with the prior knowledge (by which we mean your expectations as are formed from the relevant Theory and literature)}
-}
+\youranswer{
+    The increase of network width enlarges the gap between training and validation error in a consistent way, 
+which we can see from both (\textit{Fig 2b}) and (\textit{Table 1}). And the results are in line with the prior 
+theory that complex model has a better capacity to fit while suffering from a higher risk of overfitting.
+}}
 
 %% Question 10:
 \newcommand{\questionTen} {
@@ -142,13 +160,13 @@ grows rapidly}
 \begin{figure}[t]
     \centering
     \begin{subfigure}{\linewidth}
-        \includegraphics[width=\linewidth]{figures/one_hidden_layer_acc.png}
+        \includegraphics[width=\linewidth]{figures/one_hidden_layer_acc.pdf}
         \caption{accuracy by epoch}
         \label{fig:width_acccurves}
     \end{subfigure} 
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{figures/one_hidden_layer_error.png}
+        \includegraphics[width=\linewidth]{figures/one_hidden_layer_error.pdf}
         \caption{error by epoch}
         \label{fig:width_errorcurves}
     \end{subfigure} 
@@ -165,13 +183,13 @@ grows rapidly}
 \begin{figure}[t]
     \centering
     \begin{subfigure}{\linewidth}
-        \includegraphics[width=\linewidth]{figures/multiple_layers_acc.png}
+        \includegraphics[width=\linewidth]{figures/multiple_layers_acc.pdf}
         \caption{accuracy by epoch}
         \label{fig:depth_acccurves}
     \end{subfigure} 
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{figures/multiple_layers_error.png}
+        \includegraphics[width=\linewidth]{figures/multiple_layers_error.pdf}
         \caption{error by epoch}
         \label{fig:depth_errorcurves}
     \end{subfigure} 
@@ -188,13 +206,13 @@ grows rapidly}
 \begin{figure*}[t]
     \centering
     \begin{subfigure}{.475\linewidth}
-        \includegraphics[width=\linewidth]{figures/empty_dropout_plot.png}
+        \includegraphics[width=\linewidth]{figures/Dropout_value.pdf}
         \caption{Accuracy and error by inclusion probability.}
         \label{fig:dropoutrates}
     \end{subfigure} 
     \begin{subfigure}{.475\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{figures/empty_wd_plot.png}
+        \includegraphics[width=\linewidth]{figures/weight_decay.pdf}
         \caption{Accuracy and error by weight penalty.}
         \label{fig:weightrates}
     \end{subfigure} 
@@ -266,19 +284,19 @@ Question Table 3 - Fill in Table 3 with the results from your experiments for th
     \midrule
         \multirow{4}*{Dropout}
                  & 0.6                   &  80.7                &      0.549 & 0.593     \\
-                 & 0.7 & --.- & -.--- & -.---  \\
+                 & 0.7 & 83.0 & 0.442 & 0.502  \\
                  & 0.85 & 85.1 &  0.329 &  0.434 \\
                  & 0.97 & 85.4 &  0.244 & 0.457  \\
     \midrule
         \multirow{4}*{L1 penalty}
                  & 5e-4 & 79.5 & 0.642 & 0.658 \\
-                 & 1e-3 & --.- & -.--- & -.--- \\
+                 & 1e-3 & 77.1 & 0.744 & 0.764 \\
                  & 5e-3 & 2.41 & 3.850 & 3.850 \\
                  & 5e-2 & 2.20 & 3.850 & 3.850 \\
     \midrule
         \multirow{4}*{L2 penalty}  
                  & 5e-4 & 85.1 & 0.306 & 0.460 \\
-                 & 1e-3 & --.- & -.--- & -.--- \\
+                 & 1e-3 & 84.9 & 0.334 & 0.450 \\
                  & 5e-3 & 81.3 & 0.586 & 0.607 \\
                  & 5e-2 & 39.2 & 2.258 & 2.256  \\      
     \bottomrule

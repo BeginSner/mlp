@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.24)  27 OCT 2022 00:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.24)  27 OCT 2022 21:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -610,39 +610,46 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 ]
-<figures/one_hidden_layer_acc.png, id=47, 1233.6489pt x 617.9085pt>
-File: figures/one_hidden_layer_acc.png Graphic file (type png)
-<use figures/one_hidden_layer_acc.png>
-Package pdftex.def Info: figures/one_hidden_layer_acc.png  used on input line 112.
-(pdftex.def)             Requested size: 232.60127pt x 116.49869pt.
-<figures/one_hidden_layer_error.png, id=48, 822.4326pt x 386.6445pt>
-File: figures/one_hidden_layer_error.png Graphic file (type png)
-<use figures/one_hidden_layer_error.png>
-Package pdftex.def Info: figures/one_hidden_layer_error.png  used on input line 112.
-(pdftex.def)             Requested size: 232.60127pt x 109.35117pt.
+Underfull \vbox (badness 4132) has occurred while \output is active []
+
+<figures/one_hidden_layer_acc.pdf, id=47, 578.16pt x 289.08pt>
+File: figures/one_hidden_layer_acc.pdf Graphic file (type pdf)
+<use figures/one_hidden_layer_acc.pdf>
+Package pdftex.def Info: figures/one_hidden_layer_acc.pdf  used on input line 112.
+(pdftex.def)             Requested size: 232.60127pt x 116.30042pt.
+<figures/one_hidden_layer_error.pdf, id=48, 578.16pt x 289.08pt>
+File: figures/one_hidden_layer_error.pdf Graphic file (type pdf)
+<use figures/one_hidden_layer_error.pdf>
+Package pdftex.def Info: figures/one_hidden_layer_error.pdf  used on input line 112.
+(pdftex.def)             Requested size: 232.60127pt x 116.30042pt.
+LaTeX Font Info:    Font shape `T1/txr/b/it' in size <10> not available
+(Font)              Font shape `T1/txr/bx/it' tried instead on input line 122.
+
+Underfull \vbox (badness 1817) has occurred while \output is active []
+
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 3.30003pt, for example:
 (fancyhdr)                \setlength{\footskip}{3.30003pt}.
 
-[2 <./figures/fig1_acc.png> <./figures/fig1_err.png> <./figures/one_hidden_layer_acc.png> <./figures/one_hidden_layer_error.png>]
+[2 <./figures/fig1_acc.png> <./figures/fig1_err.png>]
 Overfull \hbox (4.5188pt too wide) in paragraph at lines 129--129
  [][] 
  []
 
-<figures/multiple_layers_acc.png, id=64, 1233.6489pt x 617.9085pt>
-File: figures/multiple_layers_acc.png Graphic file (type png)
-<use figures/multiple_layers_acc.png>
-Package pdftex.def Info: figures/multiple_layers_acc.png  used on input line 130.
-(pdftex.def)             Requested size: 232.60127pt x 116.49869pt.
-<figures/multiple_layers_error.png, id=65, 578.16pt x 289.08pt>
-File: figures/multiple_layers_error.png Graphic file (type png)
-<use figures/multiple_layers_error.png>
-Package pdftex.def Info: figures/multiple_layers_error.png  used on input line 130.
+<figures/multiple_layers_acc.pdf, id=61, 578.16pt x 289.08pt>
+File: figures/multiple_layers_acc.pdf Graphic file (type pdf)
+<use figures/multiple_layers_acc.pdf>
+Package pdftex.def Info: figures/multiple_layers_acc.pdf  used on input line 130.
+(pdftex.def)             Requested size: 232.60127pt x 116.30042pt.
+<figures/multiple_layers_error.pdf, id=62, 578.16pt x 289.08pt>
+File: figures/multiple_layers_error.pdf Graphic file (type pdf)
+<use figures/multiple_layers_error.pdf>
+Package pdftex.def Info: figures/multiple_layers_error.pdf  used on input line 130.
 (pdftex.def)             Requested size: 232.60127pt x 116.30042pt.
 
-Underfull \vbox (badness 3058) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
@@ -650,18 +657,24 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 3.30003pt, for example:
 (fancyhdr)                \setlength{\footskip}{3.30003pt}.
 
-[3 <./figures/multiple_layers_acc.png> <./figures/multiple_layers_error.png>]
-<figures/empty_dropout_plot.png, id=90, 318.18875pt x 270.00874pt>
-File: figures/empty_dropout_plot.png Graphic file (type png)
-<use figures/empty_dropout_plot.png>
-Package pdftex.def Info: figures/empty_dropout_plot.png  used on input line 204.
-(pdftex.def)             Requested size: 229.75894pt x 194.96645pt.
-<figures/empty_wd_plot.png, id=91, 318.18875pt x 274.02374pt>
-File: figures/empty_wd_plot.png Graphic file (type png)
-<use figures/empty_wd_plot.png>
-Package pdftex.def Info: figures/empty_wd_plot.png  used on input line 204.
-(pdftex.def)             Requested size: 229.75894pt x 197.86559pt.
+[3 <./figures/one_hidden_layer_acc.pdf> <./figures/one_hidden_layer_error.pdf> <./figures/multiple_layers_acc.pdf> <./figures/multiple_layers_error.pdf>]
+<figures/Dropout_value.pdf, id=218, 462.52798pt x 346.89601pt>
+File: figures/Dropout_value.pdf Graphic file (type pdf)
+<use figures/Dropout_value.pdf>
+Package pdftex.def Info: figures/Dropout_value.pdf  used on input line 204.
+(pdftex.def)             Requested size: 229.75894pt x 172.32011pt.
+<figures/weight_decay.pdf, id=219, 462.52798pt x 346.89601pt>
+File: figures/weight_decay.pdf Graphic file (type pdf)
+<use figures/weight_decay.pdf>
+Package pdftex.def Info: figures/weight_decay.pdf  used on input line 204.
+(pdftex.def)             Requested size: 229.75894pt x 172.32011pt.
 
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 3.30003pt, for example:
+(fancyhdr)                \setlength{\footskip}{3.30003pt}.
+
+[4]
 Underfull \hbox (badness 10000) in paragraph at lines 228--230
  \T1/txr/bx/n/10 (+20) Sum-mary \T1/txr/m/n/10 (+20) In this sec-tion, we briefly study a
  []
@@ -675,12 +688,6 @@ Underfull \hbox (badness 1342) in paragraph at lines 228--230
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 3.30003pt, for example:
-(fancyhdr)                \setlength{\footskip}{3.30003pt}.
-
-[4]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -689,7 +696,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 3.30003pt, for example:
 (fancyhdr)                \setlength{\footskip}{3.30003pt}.
 
-[5 <./figures/empty_dropout_plot.png> <./figures/empty_wd_plot.png>] (./mlp-cw1-template.bbl
+[5 <./figures/Dropout_value.pdf> <./figures/weight_decay.pdf>] (./mlp-cw1-template.bbl
 Underfull \hbox (badness 1342) in paragraph at lines 10--14
 \T1/txr/m/it/10 (+20) Deep Learn-ing\T1/txr/m/n/10 (+20) .  MIT Press, 2016.  [][]$http : / / www .
  []
@@ -700,25 +707,23 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 3.30003pt, for example:
 (fancyhdr)                \setlength{\footskip}{3.30003pt}.
 
-[6
-
-] (./mlp-cw1-template.aux)
+[6] (./mlp-cw1-template.aux)
 Package rerunfilecheck Info: File `mlp-cw1-template.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 16081 strings out of 475071
- 251986 string characters out of 5782907
- 637225 words of memory out of 5000000
- 36690 multiletter control sequences out of 15000+600000
- 556840 words of font info for 453 fonts, out of 8000000 for 9000
+ 16128 strings out of 475071
+ 252484 string characters out of 5782907
+ 639443 words of memory out of 5000000
+ 36693 multiletter control sequences out of 15000+600000
+ 560664 words of font info for 484 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 77i,11n,80p,1065b,556s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 77i,12n,80p,1065b,556s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/txfonts/rtxb.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/txfonts/txsy.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on mlp-cw1-template.pdf (6 pages, 489045 bytes).
+Output written on mlp-cw1-template.pdf (6 pages, 242540 bytes).
 PDF statistics:
- 184 PDF objects out of 1000 (max. 8388607)
- 138 compressed objects within 2 object streams
+ 392 PDF objects out of 1000 (max. 8388607)
+ 168 compressed objects within 2 object streams
  38 named destinations out of 1000 (max. 500000)
- 104489 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 110633 words of extra memory for PDF output out of 128383 (max. 10000000)
 
