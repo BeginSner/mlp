@@ -24,7 +24,10 @@
 
 %% Question 1:
 \newcommand{\questionOne} {
-\youranswer{Question 1 - Summarise why overfitting is a problem}
+\youranswer{When overfitting occurs, the model can only be able to fit well on the training 
+set(we do have labels/results) and unable to generalize well to new data(we do not know, 
+results to be discovered). So the model can not perform the classification or prediction 
+tasks that it was intended for}
 }
 
 %% Question 2:
@@ -44,7 +47,16 @@
 
 %% Question 5:
 \newcommand{\questionFive} {
-\youranswer{Question 5 - Explain in detail, and in your own words, why overfitting is a problem}
+\youranswer{Since the goal of the model is to extract of the commonalities of some classes 
+from the training set, and use these commonalities to do prediction or classification on 
+new data(same distribution as training set). While overfitting leads the model to 
+memorizing too many details(like the outliers, or small disturbances due to noise), 
+which results in a more complex model and weakens generalization of data commonalities 
+in general. For example, considering the task of human identification intuitively. If the 
+"real" human in training set all wear red clothes. When overfitting occurs, although the model 
+can correctly recognize almost every person in training set, it may classify a 
+naked person(in new data set) as non-human, despite the person has enough commonality with 
+"real" human. For the model remembers more commonalities than the model without overfitting do}
 }
 
 %% Question 6:
@@ -54,7 +66,16 @@
 
 %% Question 7:
 \newcommand{\questionSeven} {
-\youranswer{Question 7 - Explain what these figures contain and how the curves evolve, and spot where overfitting occurs. Reason based on the min/max points and velocities (direction and magnitude of change) of the accuracy and error curves}
+\youranswer{The Fig.1a contains the accuracy(training and validation) by epoch and the Fig.1b 
+contrains the error(training and validation)by epoch, the the range of epoch is from 0 to 100. 
+In Fig.1a, the training accuracy increases fast before epoch 10 and after that it increases more 
+slowly and get to the peak of about 0.950 at epoch 90. The validation accuracy increases at the 
+beginning of training and reaches the maximum of 0.835 at around epoch 10. After epoch 10 the validation 
+continuous to decline to 0.810. 
+In Fig.1b, the training error decreases fast before epooch 10 and after that it decreases more slowly 
+and get to the minimum of about 0.05 at epoch 90. The validation error decreases and get to the minimum 
+of 0.5 at epoch 10. After epoch 10, the validation error grows almost linearly with respect to epoch and 
+grows rapidly}
 }
 
 %% Question 8:
@@ -121,13 +142,13 @@
 \begin{figure}[t]
     \centering
     \begin{subfigure}{\linewidth}
-        \includegraphics[width=\linewidth]{figures/empty_acc_curve_width.png}
+        \includegraphics[width=\linewidth]{figures/one_hidden_layer_acc.png}
         \caption{accuracy by epoch}
         \label{fig:width_acccurves}
     \end{subfigure} 
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{figures/empty_error_curve_width.png}
+        \includegraphics[width=\linewidth]{figures/one_hidden_layer_error.png}
         \caption{error by epoch}
         \label{fig:width_errorcurves}
     \end{subfigure} 
@@ -144,13 +165,13 @@
 \begin{figure}[t]
     \centering
     \begin{subfigure}{\linewidth}
-        \includegraphics[width=\linewidth]{figures/empty_acc_curve_depth.png}
+        \includegraphics[width=\linewidth]{figures/multiple_layers_acc.png}
         \caption{accuracy by epoch}
         \label{fig:depth_acccurves}
     \end{subfigure} 
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{figures/empty_error_curve_depth.png}
+        \includegraphics[width=\linewidth]{figures/multiple_layers_error.png}
         \caption{error by epoch}
         \label{fig:depth_errorcurves}
     \end{subfigure} 
@@ -196,9 +217,9 @@ Question Table 1 - Fill in Table 1 with the results from your experiments varyin
     \toprule
         \# Hidden Units & Val. Acc. & Train Error & Val. Error\\
     \midrule
-         32            &    --.-   &  -.--- &   -.---            \\
-         64            &    --.-   &  -.---  &   -.---               \\
-         128           &    --.-   &  -.---  &   -.---           \\ 
+         32            &    0.789   &  0.563 &   0.705            \\
+         64            &    0.808   &  0.337  &   0.660            \\
+         128           &    0.804   &  0.170  &   0.907           \\ 
     \bottomrule
     \end{tabular}
     \caption{Validation accuracy (\%) and training/validation error (in terms of cross-entropy error) for varying network widths on the EMNIST dataset.}
@@ -218,9 +239,9 @@ Question Table 2 - Fill in Table 2 with the results from your experiments varyin
     \toprule
         \# Hidden Layers & Val. Acc. & Train Error & Val. Error \\
     \midrule
-         1               &      --.-      &   -.--- & -.---                \\
-         2               &    --.-       &  -.--- & -.---                 \\
-         3               &      --.-      &   -.--- & -.---                \\ 
+         1               &     0.804       &  0.167   &       0.942          \\
+         2               &    0.818       &  0.0925 & 1.46                 \\
+         3               &      0.815      &   0.105 & 1.68               \\ 
     \bottomrule
     \end{tabular}
     \caption{Validation accuracy (\%) and training/validation error (in terms of cross-entropy error) for varying network depths on the EMNIST dataset.}
