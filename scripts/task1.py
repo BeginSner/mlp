@@ -59,8 +59,7 @@ def ploting(stats_list, keys_list, stats_interval, hidden_num_list):
    return fig_1, ax_1, fig_2, ax_2
 
 def set_state(seed):
-   # Seed a random number generator
-   seed = 11102019 
+   # Seed a random number generator 
    rng = np.random.RandomState(seed)
    return rng
    

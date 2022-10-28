@@ -37,16 +37,21 @@ tasks that it was intended for}
 
 %% Question 3:
 \newcommand{\questionThree} {
-\youranswer{the use of dropout can reduce the impact of overfitting. When the probability of a neuron to dropout 
-increases, the gap between training error and validation error will be smaller. However, the performance of the 
-model(we think higher validation accuracy means better performance) gets worse when using dropout. 
-Meanwhile, the use of either L1 penalty or L2 penalty has no effect on problem of overfitting, but it will 
-severely degrades the performance of model.}
+\youranswer{the use of dropout can reduce the impact of overfitting. When the probability of a neuron to be included 
+decreases, the gap between training error and validation error will become smaller, which means the 
+overfitting problem is mitigated. However, in such case the performance of the 
+model(we think higher validation accuracy means better performance) gets worse. 
+As is the same, the use of both L1 penalty and L2 penalty can mitigate problem of overfitting, but it will 
+severely degrades the performance of model when the penalty hyperparameter gets too big.}
 }
 
 %% Question 4:
 \newcommand{\questionFour} {
-\youranswer{Question 4 - Give your overall conclusions}
+\youranswer{1: When quantity of parameters increases(biggernetwork width or depth), the model 
+can fitting better on training set. However it will generate overfitting problem.\\
+    2: Dropout and \textup{L$1$}, \textup{L$2$} regularization can mitigate the problem of 
+overfitting, but low probability to include units or setting the hyperparameter of 
+penalty too high will do harm to the performance of the model.}
 }
 
 %% Question 5:
@@ -108,47 +113,162 @@ theory that complex model has a better capacity to fit while suffering from a hi
 
 %% Question 10:
 \newcommand{\questionTen} {
-\youranswer{Question 10 - Explain your network depth experiment results by using the relevant figure and table}
+\youranswer{When using fixed $128$ units per layer as training model, the $2$ hidden layer model show best 
+performance(\textit{Table 2}) due to highest validation accuracy. Similarly, the gap between 
+training error and validation error increases as the number of layer increases from one to three(\textit{Fig 3b}). 
+After epoch $10$, the gap becomes larger with the increase of epoch number. But unlike the change of units number, 
+changing the number of layer does not have much impact on the training error and training accuracy(\textit{Fig 2, Fig 3})}
 }
 
 %% Question 11:
 \newcommand{\questionEleven} {
-\youranswer{Question 11 - Discuss whether varying depth affects the results in a consistent way, and whether the results are expected and match well with the prior knowledge (by which we mean your expectations as are formed from the relevant Theory and literature)}
+\youranswer{The increase of network depth enlarges the gap between training and validation error in a consistent way, 
+which we can see from both (\textit{Fig 3b}) and (\textit{Table 2}). And the results are in line with the prior 
+theory that complex model has a better capacity to fit while suffering from a higher risk of overfitting. Though 
+when the number of hidden layers increase from $2$ to $3$, the training accuracy and training error do not show 
+a explicit improvement, which I think maybe the $2$ hidden layers model's fitting capacity is enough(model is complex 
+enough), yet the more complex model leads to more severe overfitting.}
 }
 
 %% Question 12:
 \newcommand{\questionTwelve} {
-\youranswer{Question 12 - Compare and discuss how varying width and height changes the performance and overfitting in your experiments}
+\youranswer{
+    Using the validation accuracy as criterion for performance and gap between training and validation error as 
+the degree of overfitting. As shown in (\textit{Table 1, Table 2, Fig 2, Fig 3}), the increases of either width 
+or depth will cause aggravates overfitting. While neither increasing width nor depth of the network can ensure 
+a better performance(\textit{Table 1, Table 2}). The best performance is obtained for both experiments with 
+intermediate value of the hyperparameter variables(width and depth). 
+    As a result, even though the simple model has lowest risk of getting stuck in overfitting problem, and the 
+complex model can fit training data quite well, we should select carefully because neither too simple nor too 
+complex model shows competitive performance.
+}
 }
 
 %% Question 13:
 \newcommand{\questionThirteen} {
-\youranswer{Question 13 - Explain how one could use a combination of L1 and L2 regularization. Discuss any potential benefits of this approach}
+\youranswer{
+    The grad of \textup{L$1$} regularisation is not related to the size of the weight, and it depend on the sign 
+of the weight. So \textup{L$1$} regularisation can shrink the small weights to zero. It is of great help when 
+the input matrix is sparse, the \textup{L$1$} can select important features by setting some weights to $0$. 
+While \textup{L$2$} can effectively deal with large weights for the grad of weight is proportional to weight 
+itself, so \textup{L$2$} can easily scaling weights to $(0,1)$, which prevetes excessive weights from being 
+too sensitive to data changes or outliers. 
+    So we can use both \textup{L$1$} and \textup{L$2$} by setting different $\lambda$ for 
+them($\lambda_1{\lVert \omega\rVert}_1 + \lambda_2{\lVert \omega\rVert}_2$). By tuning the hyperparameters, 
+we can simultaneous achieve the goal of selecting important features and scaling the model parameters. 
+    Though the \textup{L$1$} is equivalent to the prior probability distribution of the parameter 
+$\omega$ satisfying the Laplace distribution and the \textup{L$1$} is equivalent to the prior probability distribution of the parameter 
+$\omega$ satisfying the Gaussian distribution, combining them may be quite challenging to find the proper $\lambda$, 
+yet it is promising if suitable $\lambda$ is found skillfully.
+}
 }
 
 %% Question 14:
 \newcommand{\questionFourteen} {
-\youranswer{Question 14 - Explain the experimental details (e.g. hyperparameters), discuss the results in terms of their generalization performance and overfitting. Select and test the best performing model as part of this analysis}
+\youranswer{
+    In the experiment, we use a $3$ hidden layers network with $128$ units in each layer 
+as model. The size of each batch is set to $100$, the probability of units included 
+in dropout layer and $\lambda$ for \textup{L$1$} and \textup{L$2$} is shown in 
+\textup{Hyperparameter value(s)} in \textit{Table 3}.
+    The first experiment in this section is to test the effect of different units 
+included probability hyperparameter using dropout between hidden layers. Compared to \textup{Baseline}, 
+when hyperparameter $incl\_prob = 0.85$ and $incl\_prob = 0.85$, the performance of model is better than \textup{Baseline}. 
+While $incl\_prob = 0.6$ and $incl\_prob = 0.7$, the performance is worse than \textup{Baseline}(\textit{Table 3}).
+When $incl\_prob$ is close to $1$, the performance is best among all the tests. Meanwhile, as shown in \textit{Fig 4a}, 
+when dropout value $incl\_prob$ gets smaller, the generalization gap will also shrink although with some trade-offs in 
+performance. 
+    The second experiment in this section is to test the selection of hyperparameter $\lambda$ for \textup{L$1$} penalty and 
+\textup{L$2$} penalty. When $\lambda$ is quite close to zero($5e-4$), both models using \textup{L$1$} penalty and 
+\textup{L$2$} penalty achieve best performance among their own test space(\textit{Table 3}). The \textit{Fig 4b} 
+shows the increase of weight decay value $\lambda$ will lead to performance decreasing quickly, together 
+with generalization gap. 
+
+}
 }
 
 %% Question 15:
 \newcommand{\questionFifteen} {
-\youranswer{Question 15 - Assume you were able to run 8 further experiments where you could combine Dropout and L1, and/or Dropout and L2 regularization. Which 8 runs would you pick and what question(s) would you aim to answer? Make sure you define the experiment setup, including any relevant hyperparameters}
+\youranswer{
+    Questions to answer: \\
+    1: If there exists a smaller $\lambda$ by which the \textup{L$1$} or \textup{L$2$} 
+penalty(single Hyperparameter test,just like the test in this section)
+can achieve better performance.\\
+    2: If I can find the combination of Dropout and \textup{L$1$} and/or  Dropout and \textup{L$2$} 
+to achieve the best performance(at least better than the \textbf{bold result} in \textit{Table 3}) 
+with possible low generalization gap(at least lower than the first test result of \textup{L$2$} in \textit{Table 3})
+\\
+The first two experiments I will choose weight decay error $\lambda = 2e-4$ 
+in both \textup{L$1$} and \textup{L$2$} to see if the lower $\lambda$ brings better performance. 
+After that I shall choose the best two performance $\lambda$ among all the experiments did on \textup{L$1$} 
+and \textup{L$2$}. Then I will select $0.85, 0.91, 0.97$ as the dropout value list. Then the rest $6$ experiments 
+will be the $2$(best performance weight decay hyperparameter) multiply $3$(dropout value). \\
+The reason why I choose this solution is that. After the previous experiments, I think the \textup{L$2$} is 
+better at performance than \textup{L$1$} overall. But I still want to find if there is a better performance by 
+using single \textup{L$1$} or \textup{L$2$} since the weight decay value still has space to decline and it 
+is negatively correlated with the accuracy from \textit{Fig 4b}. After selecting the best two  weight decay value, 
+I the rest $6$ experiments can be used to arrange the combination of the hyperparameters. 
+}
 }
 
 %% Question 16:
 \newcommand{\questionSixteen} {
-\youranswer{Question 16 - Explain, in your own words, why the equivalence between L2 weight penalty and weight decay in Adam optimizer requires a more complex relation; a preconditioner matrix $\bm{M}_t$ rather than a scalar relation}
+\youranswer{
+    Lets define the weight of network as $w$, its gradient as $grad\_w$, and the hyperparameter 
+$\lambda, \beta_1, \beta_2, \epsilon$. \\
+    intuitively, the \textup{L$2$} regularisation in Adam optimizer is that we first add the  $\lambda w$ to 
+the gradient $grad\_w$ and then compute a moving average of the gradients and their squares before 
+using both of them for the update. While the weight decay will first compute the momentum of 
+gradient(moving averages of the parameter $w$), then update and finally subtract a quantity 
+proportional to $\lambda w$. \\
+    Due to the existence of the momentum(more complex in \textup{Adam} than \textup{SGD} with momentum 
+because \textup{Adam} has two momentums), the equivalence between \textup{L$2$} weight penalty 
+and weight decay neeeds a quite complex matrix. \\
+Here I give a simple derivation\\
+    In \textup{L$2$} weight penalty: \\
+    It first compute the gradients and moving average\\
+    $gradients \longleftarrow grad\_w + \lambda w$\\
+    $m_1 \longleftarrow \beta_1 m_1 + (1-\beta_1)gradients$\\
+    $m_2 \longleftarrow \beta_2 m_2 + (1-\beta_2)gradients^2$\\
+    The penalty information is involved in the gradients\\
+    $w \longleftarrow w - learning\_rate (m_1/(\sqrt{m_2}+\epsilon))$\\
+    In weight decay: \\
+    The gradients equals to $grad\_w$\\
+    Directly compute the moving average\\
+    $m_1 \longleftarrow \beta_1 m_1 + (1-\beta_1)grad\_w$\\
+    $m_2 \longleftarrow \beta_2 m_2 + (1-\beta_2){grad\_w}^2$\\
+    In the final step to introduce a decay\\
+    $w \longleftarrow w - learning\_rate (m_1/(\sqrt{m_2}+\epsilon) + \lambda w)$\\
+    The $m_1, m_2$ in \textup{L$2$} weight penalty and weight decay are different matrix. 
+So in order to equal \textup{L$2$} weight penalty and weight decay, we need a quite complex
+matrix.
+}
 }
 
 %% Question 17:
 \newcommand{\questionSeventeen} {
-\youranswer{Question 17 - Based on \textbf{Algorithm 2} in \cite{loshchilov2019decoupled}, discuss whether your code with L2 Weight Penalty in the MLP library implements ``Adam with L2 regularization'', ``Adam with decoupled weight decay (AdamW)'' or another variation. Refer to the MLP code, pointing to the specific files and functions to justify your answer}
+\youranswer{
+    In mlp.learning\_rules.AdamLearningRule(), update\_params() function: it neither 
+realize the "Adam with \textup{L$2$} regularization" nor the AdamW. It views the \textup{L$2$} 
+as a seperate layer with its own gradient, but not an extra bias implemented during the update 
+procedure.
+}
 }
 
 %% Question 18:
 \newcommand{\questionEighteen} {
-\youranswer{Question 18 - Briefly draw your conclusions based on the results from the previous sections (what are the take-away messages?) and conclude your report with a recommendation for future directions}
+\youranswer{
+    1: When quantity of parameters increases(biggernetwork width or depth), the model 
+can fitting better on training set. However it will generate overfitting problem.\\
+    2: Dropout and \textup{L$1$}, \textup{L$2$} regularization can mitigate the problem of 
+overfitting, but low probability to include units or setting the hyperparameter of 
+penalty too high will do harm to the performance of the model. \\
+    Take-away message:\\
+    1: Realize the principle and realization of Adam, AdamW. \\
+    2: Know how to build a multilayer 
+model from scratch.\\
+    Future directions: \\
+    implement more complex model, and build AI architecture. 
+}
 }
 
 %% - - - - - - - - - - - - FIGURES - - - - - - - - - - - - 
@@ -235,9 +355,9 @@ Question Table 1 - Fill in Table 1 with the results from your experiments varyin
     \toprule
         \# Hidden Units & Val. Acc. & Train Error & Val. Error\\
     \midrule
-         32            &    0.789   &  0.563 &   0.705            \\
-         64            &    0.808   &  0.337  &   0.660            \\
-         128           &    0.804   &  0.170  &   0.907           \\ 
+         32            &    78.9   &  0.563 &   0.705            \\
+         64            &    80.8   &  0.337  &   0.660            \\
+         128           &    80.4   &  0.170  &   0.907           \\ 
     \bottomrule
     \end{tabular}
     \caption{Validation accuracy (\%) and training/validation error (in terms of cross-entropy error) for varying network widths on the EMNIST dataset.}
@@ -257,9 +377,9 @@ Question Table 2 - Fill in Table 2 with the results from your experiments varyin
     \toprule
         \# Hidden Layers & Val. Acc. & Train Error & Val. Error \\
     \midrule
-         1               &     0.804       &  0.167   &       0.942          \\
-         2               &    0.818       &  0.0925 & 1.46                 \\
-         3               &      0.815      &   0.105 & 1.68               \\ 
+         1               &     80.4       &  0.167   &       0.942          \\
+         2               &    81.8       &  0.0925 & 1.46                 \\
+         3               &      81.5      &   0.105 & 1.68               \\ 
     \bottomrule
     \end{tabular}
     \caption{Validation accuracy (\%) and training/validation error (in terms of cross-entropy error) for varying network depths on the EMNIST dataset.}
@@ -280,22 +400,22 @@ Question Table 3 - Fill in Table 3 with the results from your experiments for th
         Model    &  Hyperparameter value(s) & Validation accuracy & Train Error & Validation Error \\
     \midrule
     \midrule
-        Baseline &  -                    &               0.837 &       0.241 &  0.533          \\
+        Baseline &  -                    &               83.7 &       0.241 &  0.533          \\
     \midrule
         \multirow{4}*{Dropout}
                  & 0.6                   &  80.7                &      0.549 & 0.593     \\
                  & 0.7 & 83.0 & 0.442 & 0.502  \\
                  & 0.85 & 85.1 &  0.329 &  0.434 \\
-                 & 0.97 & 85.4 &  0.244 & 0.457  \\
+                 & 0.97 & \textbf{85.4} &  0.244 & 0.457  \\
     \midrule
         \multirow{4}*{L1 penalty}
-                 & 5e-4 & 79.5 & 0.642 & 0.658 \\
+                 & 5e-4 & \textit{79.5} & 0.642 & 0.658 \\
                  & 1e-3 & 77.1 & 0.744 & 0.764 \\
                  & 5e-3 & 2.41 & 3.850 & 3.850 \\
                  & 5e-2 & 2.20 & 3.850 & 3.850 \\
     \midrule
         \multirow{4}*{L2 penalty}  
-                 & 5e-4 & 85.1 & 0.306 & 0.460 \\
+                 & 5e-4 & \textit{85.1} & 0.306 & 0.460 \\
                  & 1e-3 & 84.9 & 0.334 & 0.450 \\
                  & 5e-3 & 81.3 & 0.586 & 0.607 \\
                  & 5e-2 & 39.2 & 2.258 & 2.256  \\      

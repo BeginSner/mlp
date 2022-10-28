@@ -130,8 +130,8 @@ def plot_results(data_label, data_result):
    x2 = data_label[1]
    y21_L1 = data_result[1][:,0]
    y21_L2 = data_result[2][:,0]
-   y22_L1 = data_result[1][:,2] - data_result[1][:,2]
-   y22_L2 = data_result[2][:,2] - data_result[2][:,2]
+   y22_L1 = data_result[1][:,2] - data_result[1][:,1]
+   y22_L2 = data_result[2][:,2] - data_result[2][:,1]
    fig2, ax21 = plt.subplots()
 
    ax22 = ax21.twinx()
@@ -162,11 +162,12 @@ if __name__ == "__main__":
    hidden_dim = 128,
    seed = 23624,
    num_layers = 3,
-   incl_prob = 0.7,
+   incl_prob = 0.95,
    L1_coff = 1e-3,
-   L2_coff = 1e-3,
+   L2_coff = 1e-4,
    )
    # _ = train(params)
+
    dropout = np.array([0.6, 0.7, 0.85, 0.97])
    L1 = np.array([5e-4, 1e-3, 5e-3, 5e-2])
    L2 = np.array([5e-4, 1e-3, 5e-3, 5e-2])
