@@ -7,6 +7,7 @@ import os
 import numpy as np
 import time
 
+import warnings
 from pytorch_mlp_framework.storage_utils import save_statistics
 from matplotlib import pyplot as plt
 import matplotlib
@@ -131,7 +132,9 @@ class ExperimentBuilder(nn.Module):
         plt.plot(all_grads, alpha=0.3, color="b")
         plt.hlines(0, 0, len(all_grads)+1, linewidth=1, color="k" )
         plt.xticks(range(0,len(all_grads), 1), layers, rotation="vertical")
-        plt.xlim(xmin=0, xmax=len(all_grads))
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            plt.xlim(xmin=0, xmax=len(all_grads))
         plt.xlabel("Layers")
         plt.ylabel("Average Gradient")
         plt.title("Gradient flow")
@@ -178,9 +181,17 @@ class ExperimentBuilder(nn.Module):
 
         self.optimizer.zero_grad()  # set all weight grads from previous training iters to 0
         loss.backward()  # backpropagate to compute gradients for current iter loss
-        
-        self.learning_rate_scheduler.step(epoch=self.current_epoch)
+
+        """if learning_rate_scheduler.step() before optimizer.step(), will raise warning
+        """
         self.optimizer.step()  # update network parameters
+        """The epoch parameter in `scheduler.step()` was not necessary 
+        and is being deprecated where possible.
+        Please use `scheduler.step()` to step the scheduler.
+        """
+        self.learning_rate_scheduler.step()
+        # self.learning_rate_scheduler.step(epoch=self.current_epoch)
+        
         _, predicted = torch.max(out.data, 1)  # get argmax of predictions
         accuracy = np.mean(list(predicted.eq(y.data).cpu()))  # compute accuracy
         return loss.cpu().data.numpy(), accuracy
