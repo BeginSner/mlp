@@ -1,0 +1,2 @@
+python pytorch_mlp_framework/train_evaluate_image_classification_system.py --block_type 'BN_block'
+python pytorch_mlp_framework/train_evaluate_image_classification_system.py --block_type 'BN+RC_block'

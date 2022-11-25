@@ -11,6 +11,8 @@ import os
 # os.environ["CUDA_VISIBLE_DEVICES"]="0"
 if __name__ == "__main__":
     args = get_args()  # get arguments from command line
+    # args.experiment_name = "BN_RC_experiment"
+    # args.block_type = "BN_RC_block"
     rng = np.random.RandomState(seed=args.seed)  # set the seeds for the experiment
     torch.manual_seed(seed=args.seed)  # sets pytorch's seed
 
@@ -47,9 +49,20 @@ if __name__ == "__main__":
     elif args.block_type == 'empty_block':
         processing_block_type = EmptyBlock
         dim_reduction_block_type = EmptyBlock
+    elif args.block_type == 'BN+RC_block':
+        args.experiment_name = 'BN+RC_block'
+        processing_block_type = BnRcBlock
+        dim_reduction_block_type = BnRcReductionBlock
+        args.lr = 1e-2
+    elif args.block_type == 'BN_block':
+        args.experiment_name = 'BN_block'
+        processing_block_type = BnBlock
+        dim_reduction_block_type = BnReductionBlock
+        args.lr = 1e-3
     else:
         raise ModuleNotFoundError
-
+    print("===================args=====================")
+    print(args)
     custom_conv_net = ConvolutionalNetwork(  # initialize our network object, in this case a ConvNet
         input_shape=(args.batch_size, args.image_num_channels, args.image_height, args.image_width),
         num_output_classes=args.num_classes, num_filters=args.num_filters, use_bias=False,
@@ -64,5 +77,6 @@ if __name__ == "__main__":
                                         use_gpu=args.use_gpu,
                                         continue_from_epoch=args.continue_from_epoch,
                                         train_data=train_data_loader, val_data=val_data_loader,
-                                        test_data=test_data_loader)  # build an experiment object
+                                        test_data=test_data_loader,
+                                        lr=args.lr)  # build an experiment object
     experiment_metrics, test_metrics = conv_experiment.run_experiment()  # run experiment and return experiment metrics

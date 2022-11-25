@@ -20,7 +20,7 @@ def get_args():
 
     parser.add_argument('--batch_size', nargs="?", type=int, default=100, help='Batch_size for experiment')
     parser.add_argument('--continue_from_epoch', nargs="?", type=int, default=-1, help='Epoch you want to continue training from while restarting an experiment')
-    parser.add_argument('--seed', nargs="?", type=int, default=7112018,
+    parser.add_argument('--seed', nargs="?", type=int, default=0,
                         help='Seed to use for random number generator for experiment')
     parser.add_argument('--image_num_channels', nargs="?", type=int, default=3,
                         help='The channel dimensionality of our image-data')
@@ -34,7 +34,7 @@ def get_args():
                         help='Number of convolutional blocks in each stage, not including the reduction stage.'
                              ' A convolutional block is made up of two convolutional layers activated using the '
                              ' leaky-relu non-linearity')
-    parser.add_argument('--num_filters', nargs="?", type=int, default=16,
+    parser.add_argument('--num_filters', nargs="?", type=int, default=32,
                         help='Number of convolutional filters per convolutional layer in the network (excluding '
                              'dimensionality reduction layers)')
     parser.add_argument('--num_epochs', nargs="?", type=int, default=100, help='Total number of epochs for model training')
@@ -48,6 +48,7 @@ def get_args():
     parser.add_argument('--block_type', type=str, default='conv_block',
                         help='Type of convolutional blocks to use in our network '
                              '(This argument will be useful in running experiments to debug your network)')
+    parser.add_argument('--lr', type=float, default=1e-3)
     args = parser.parse_args()
     print(args)
     return args

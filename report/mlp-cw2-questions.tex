@@ -1,5 +1,5 @@
 %% REPLACE sXXXXXXX with your student number
-\def\studentNumber{sXXXXXXX}
+\def\studentNumber{s2298839}
 
 
 %% START of YOUR ANSWERS
@@ -24,55 +24,306 @@
 
 %% Question 1:
 \newcommand{\questionOne} {
-\youranswer{Question 1 - Use Figures 1, 2, and 3 to identify the Vanishing Gradient Problem (which of these model suffers from it, and what are the consequences depicted?).
+\youranswer{
+    According to Figure1, as the number of epochs increases, the training and Validation 
+    loss of VGG08 decreases while training and Validation accuracy increases. However,
+    the the training and Validation loss of VGG38 remain the same, and the training and 
+    Validation accuracy of VGG38 stay at 0, which means the model of VGG38 has no 
+    improvement in the training process. 
 
-The average length for an answer to this question is approximately 1/5 of the columns in a 2-column page}
+    According to Figure2 and Figure3, the absolute mean gradient of VGG08 can be passed 
+    to the input layer. While the gradient of VGG38 only has positive values around the 
+    output layer, and no gradient is passed to the input layer through backpropogation. 
+    So the VGG38 model suffers from Vanishing Gradient Problem. 
+
+    The consequences dipicted are that when simply stacking layers in network(VGG38 here) 
+    the gradient of layers(expect the last few layers) will vanish, resulting that the 
+    model can not be updated(due to 0 grad), and the model will lose the ability to 
+    learn(convergence to a low error and high accuracy relative to the initial training period). 
+}
 }
 
 %% Question 2:
 \newcommand{\questionTwo} {
-\youranswer{Question 2 - Consider these results (including Figure 1 from \cite{he2016deep}). Discuss the relation between network capacity and overfitting, and whether, and how, this is reflected on these results. What other factors may have lead to this difference in performance?
+\youranswer{
+    According to Table1, Figure2 and Figure3 in CW1, when the network capacity(depth or width) increases, 
+    the model will suffer from overfitting, in which case the gap between training error and validation(or test) 
+    error will be bigger, and the gap between training accuracy and validation(or test) accuracy will also become 
+    bigger. This means when overfitting happens, the trained model will have a good performance on fitting the 
+    training data, but having a relatively poor ability to fit the validation(or test) data(it can be reflected 
+    on the gap between training and validation error(and acc) curves, when network capacity increases, gap bigger).\\ 
+    But considering the results of Figure1. The gap between training and validation error 
+    is not increasing when network capacity increases, but rather the network having deeper 
+    layers(38 to 8) will have higher training error and lower training accuracy. 
 
-The average length for an answer to this question is
-approximately 1/5 of the columns in a 2-column page}
+    Also considering the Figure1 from \cite{he2016deep}. Both training and validation error of 
+    56-layer plain network are higher than 20-layer network, but the gap between training error 
+    and validation error is not increasing as network capacity increases(depth grows), and 
+    the trend performs the same in Figure4(left) from \cite{he2016deep}. This means overfitting 
+    does not happen. 
+
+    The problem of vanishing gradients leads to the worse performance on deeper network. It 
+    happens at the beginning of convergence. When the network depth increases, accuracy 
+    gets saturated and then degrades(not caused by overfitting), which generate higher 
+    training error.
+
+}
 }
 
 %% Question 3:
 \newcommand{\questionThree} {
-\youranswer{Question 3 - Describe Batch Normalization (BN) by using equations. Consider both training and test time and explain how BN addresses the vanishing gradient problem. Note that you are not required to provide the derivation of gradients w.r.t. weights for BN weights.
+\youranswer{
+    In \cite{ioffe2015batch} it describes the goal of the Batch Normalisation is to 
+    solve the problem of Internal Covariate Shift by unifying the distribution of 
+    data in each mini-batch(too costly to fully whitening the inputs of one layer). 
+    Assunming that values of $x$ over a mini-batch with size $m$,
+    $\mathcal{B} = {x_{1...m}}$. The output ${y_i = BN_{\gamma,\beta}(x_i)}$ with 
+    parameters $\gamma, \beta$ to be learned. 
 
-The average length of an answer to this question would be around 2/3 of a column in a 2-column page}
+    The procedure of Batch Normalisation Transform is as below.\\
+    The first step is to calculate the mean and variance on each column(feature)  
+    
+        $\mu_{\mathcal{B}} = \frac{1}{m}\sum_{i=1}^{m}x_i \qquad
+        \sigma_{\mathcal{B}}^2 = \frac{1}{m}\sum_{i=1}^{m}(x_i - \mu_{\mathcal{B}})^2$
+
+    Then perform normalization on $x_i$
+
+        $\hat{x}_i = \frac{x_i - \mu_{\mathcal{B}}}{\sqrt{\sigma_{\mathcal{B}}^2 + \epsilon}}$
+    
+    where $\epsilon$ is a constant added to mini-batch variance for numerical stability.
+    If $\epsilon$ is neglected, the normalized activations will have same mean of $0$ and 
+    variance of $1$ at training time.\\
+    Finally $y_i$ is computed as a linear transformation of $x_i$ as 
+
+        $y_i = \gamma x_i + \beta \equiv BN_{\gamma,\beta}(x_i)$
+
+    
+
+    When considering the training and testing of Batch Normalisation networks. The 
+    $x$ inputed to one layer is now transformed to $BN(x)$. Both batch gradient descent and 
+    SGD with mini-batch can be used to do the training. 
+    
+    The complete procedure of training and testing(validating, inference) a BN network is shown below.\\
+    Considering the inputs are the network $N$ with trainable parameters $\Theta$ and 
+    subset of activations $\{x^{(k)}\}^K_{k=1}$, the outputs are trained BN network for 
+    testing $N^{inf}_{BN}$
+
+    The first step is to train the network $N^{tr}_{BN}$ from $N$. So on each column(feature) 
+    $k$, add the transformation $y^{(k)} = BN_{\gamma^{(k)}, \beta^{(k)}}(x^{(k)})$ to $N^{tr}_{BN}$ 
+    as the transform shown above. Then modify each layer in $N^{tr}_{BN}$ 
+    with input $x^{(k)}$ to take $y^{(k)}$ instead. After the for-loop, Train $N^{tr}_{BN}$ 
+    to optimize the parameters $\Theta$ and $\{\gamma^{(k)}, \beta^{(k)}\}^K_{k=1}$
+
+    After the training period, the trained network $N^{tr}_{BN}$ will be transformed to 
+    $N^{inf}_{BN}$ for testing by freezing its parameters.  \\ 
+    Because the normalization of activations
+    (depending on mini-batch data) is not needed during test time(the output should depend only on the input). So when the 
+    network has beed trained, the normalization should not contain mean and variance of one 
+    specific mini-batch, instead, population(mean and variance of the whole input) is used.
+
+        $\hat{x}^{(k)} = \frac{x^{(k)} - E[x^{(k)}]}{\sqrt{Var[x^{(k)}] + \epsilon}}$
+
+    On each column(feature) $k$, to obtain the $E[x^{(k)}]$ and $Var[x^{(k)}]$, we should 
+    process multiple training mini-batches $\mathcal{B}$, each of size $m$, and average over 
+    them. 
+    
+        $E[x^{(k)}] = E_{\mathcal{B}}[\mu_{\mathcal{B}}^{(k)}]$ 
+        \qquad
+        $Var[x^{(k)}] = \frac{m}{m-1}E_{\mathcal{B}}[{\sigma_{\mathcal{B}}^{(k)}}^2]$ 
+
+    Upon $\hat{x}^{(k)}$ is obtained. In $N^{inf}_{BN}$, replace the transform  
+    $y^{(k)} = BN_{\gamma^{(k)}, \beta^{(k)}}(x^{(k)})$ with 
+    $y^{(k)} = \gamma^{(k)} x^{(k)} + \beta^{(k)}$
+
+    The Batch Normalisation transforms the inputs of activation to 
+    Standard Normal Distribution, which prevents the data to move to the saturated region 
+    of the nonlinear activations(it will cause the gradient to vanish). For example, 
+    \cite{ioffe2015batch} mentioned the sigmoid activation will suffer from vanishing gradient 
+    if not using BN in deep network. Also, network with Batch Normalisation can have higher 
+    learning rate(because the learning rate value does not affect the backpropogation), 
+    which will to some extent prevent the problem of gradient vanishing. 
+
+}
 }
 
 %% Question 4:
 \newcommand{\questionFour} {
-\youranswer{Question 4 - In this coursework, we didn't incorporate residual connections to the downsampling layers. Explain and justify what would need to be changed in order to add residual connections to the downsampling layers. Give and explain 2 ways of incorporating these changes and discuss pros and cons of each.
+\youranswer{
+    \textit{Eqn.(1).} in \cite{he2016deep} explains that the input $x$ and $\mathcal{F}$ 
+    must be of same dimension so that the output $y$ can be the sum of them. When 
+    downsampling is applied, by which the dimension of $\mathcal{F}(x, \{W_i\})$ is changed, 
+    the dimension of $x$ must also be changed to the same as $\mathcal{F}$ in order to 
+    add residual connections to the downsampling layers. 
+
+    One way to solve the dimension mismatch problem to use zero-padding shortcuts. For example the input of one block has 
+    64 feature map dimension, while the output has 128. Then zero-padding can be performed 
+    on the input to increase dimension to 128 and match the size of the output. 
+
+    Another way is to use a projection shortcuts. 
+    According to \textit{Eqn.(2).} in \cite{he2016deep}, a linear projection $W_j$ can be 
+    performed on $x$ to fit the size of $\mathcal{F}$, so the output $y = \mathcal{F} + W_jx$ 
+
+    Considering the pros and cons of these 2 solutions. The strengths of zero-padding is 
+    that it is parameter-free(no additional parameters exist when padding), which can ensure 
+    a relatively small size of the model(low network capacity). This can reduce training time 
+    complexity(less parameters to calculate) and prevent 
+    overfitting(based on the results in CW1 of the relationship between network capacity and overfitt).
+    While the shortcomings of zero-padding is that it indeed has no residual 
+    learning, instead just adding $0$ 
+    to fit the output dimension, which can result in the relatively bad performance on 
+    the trained model(based on Table3 in \cite{he2016deep}) compared to projection shortcuts.
+    
+    The advantages of projection is that extra parameters are introduced into the network by 
+    projection shortcuts, and with the help of residual learning through 
+    backpropogation(brought by parameters for projection),
+    the network can fit a more complex model/distribution in deep learning, which 
+    ensures a relatively lower training and validation error and higher accuracy(Table3 in \cite{he2016deep}). 
+    While the disadvantages of projection is that the additional parameters need more time to 
+    train and more space to save the network, which increases the time/memory complexity. For 
+    example in bottleneck architecture described in \cite{he2016deep}, the parameters will be 
+    doubled if replacing identify shortcuts with projection. Also, in deep network, the parameters in 
+    projection may hamper information propagation and lead to optimization problems. Moreover, 
+    the increse of network can cause overfitting problem in some cases.
+
 }
 }
 
 
 %% Question 5:
 \newcommand{\questionFive} {
-\youranswer{Question 5 - Present and discuss the experiment results (all of the results and not just the ones you had to fill in) in Table 1 and Figures 4 and 5 (you may use any of the other Figures if you think they are relevant to your analysis). You will have to determine what data are relevant to the discussion, and what information can be extracted from it. Also, discuss what further experiments you would have ran on any combination of VGG08, VGG38, BN, RC in order to
-\begin{itemize}
-    \item Improve performance of the model trained (explain why you expect your suggested experiments will help with this).
-    \item Learn more about the behaviour of BN and RC (explain what you are trying to learn and how).
-\end{itemize}
+\youranswer{
+    Comparing the experiment results in Table1. The VGG08 plain trained model has $60 K$ parameters, 
+    VGG38 plain trained model has $336 K$ parameters. When using BN on VGG38, the number of parameters 
+    will increase by about $3 K$, while using RC does not affect it. Assunming the better 
+    performance means higher Train and Val acc, with lower Train and Val loss.
+    \begin{itemize}
+        \item Plain network: When comparing VGG08 to VGG38 without BN or RC, the performance 
+        of VGG08 overwhelm that of VGG38. The VGG38 suffer from problem of gradient 
+        vanishing(Figure 1,2,3) because of the zero gradient and zero trainin and validation accuracy.
+        \item The influence of BN and RC: 
+        When only using BN for the broken VGG38, the performance 
+        of it is a little bit better than VGG08. When only using RC for broken VGG38, the 
+        performance is better than that of only using BN. This means either BN or RC can 
+        to some extent solve the problem of gradient vanishing in deep network. Though using 
+        RC can ensure better performance, yet the gap between Train(both loss and acc) and Val 
+        will be bigger than using BN alone and VGG08, which means there exists some overfitting 
+        problem in VGG38+RC network. 
+        
+        When combining BN and RC, the performance of VGG38 BN+RC 
+        improves a little compared to using RC alone, moreover, the overfitting problem is slightly 
+        alleviated(gap between train and val decreases). What can be inferred is that both 
+        BN and RC can handle the problem of gradient vanishing, BN is helpful is releasing the 
+        problem of overfitting, while RC ensures the network a better performance. Morever, 
+        VGG38 BN+RC can combine their strengths(low loss high acc, and the gap between train 
+        and val will not be too large).
+        \item Change of learning rate: The performance of VGG38 BN with 1e-3 
+        LR is slightly better than that of VGG38 BN with 1e-2 LR, which means the BN can maintain 
+        the resilience of model to the LR scale. The small decrease 
+        in Val accuracy of large learning rate is also corresponding to 
+        Figure2(BN-x5 better than BN-x30) in \cite{ioffe2015batch}. 
+        
+        However, the performance of 
+        VGG38 BN+RC with 1e-2 LR improves a lot compared to VGG38 BN+RC with 1e-3 
+        LR(the best trained model so far). This may be because when LR increases, both BN and RC can 
+        make the model converge faster, so the VGG38 BN+RC with 1e-2 LR can achieve much better 
+        performance than the same model with 1e-3 LR within $100$ epochs.
+    \end{itemize}
 
-The average length for an answer to this question is approximately 1 of the columns in a 2-column page}
+    According to Figure4, the training curve of the best trained model VGG38 BN+RC with 1e-2 LR. 
+    It can be viewed that the validation error, though fluctuating, converges after epoch 80.
+    And considering the Figure5, the gradient of each bn layer is not zero, while the 
+    gradient of convolutional layers are zero. So it indicates that the Batch Normalisation 
+    layers help the model to pass gradient through backpropogation, which solves the 
+    problem of vanishing gradient.
+
+    The further experiments can be planned as follows:
+    \begin{itemize}
+        \item Firstly, train the model of VGG08 BN, VGG08 RC, VGG08 BN+RC(the same 
+        as VGG38) with 1e-3 LR, to demonstrate what is the best trained model(just like we have 
+        selected the best trained model using VGG38 is VGG38 BN+RC).
+        \item Secondly, after selecting the setting of 
+        the best trained model based on VGG08 and VGG38
+        (maybe VGG08 BN+RC and VGG38 BN+RC), choose different 
+        LR(like Figure2 in \cite{ioffe2015batch}), for example, 1e-4, 5e-4, 5e-3, 5e-2, to test 
+        what LR is best suitable for the two settings. 
+    \end{itemize}
+        So in the first step, we selected the best combination of BN and RC on VGG08, then 
+        we test different learning rate to find the best LR. If in the first step, the best 
+        trained model is VGG08 plain, then we need extra experiments(do step two) on the 
+        settings which performs only worse than VGG08 plain in step one. Because since we have 
+        the prior knowledge(also can be inferred from previous experiments) that the plain 
+        network is sensitive to learning rate, so if the 1e-3 LR happens to be best suitable for 
+        plain network, then step two on only plain VGG08 is futile(the best performance maybe 
+        in VGG08 BN+RC with some other LR)
+
+        After that we shall do some experiments on learning about the behaviour of BN and RC.
+    \begin{itemize}
+        \item Firstly, we want to know in BN networks, whether 
+        the gradient value is negatively correlated to 
+        the LR(Since \cite{ioffe2015batch} has described that the increase of LR will cause 
+        the increase of parameter scale, and large parameters scale generates small gradients).
+        So I will use either VGG08 BN or VGG38 BN(no RC, only study BN) with different 
+        LR(like 1e-4, 5e-4, 5e-3) and plot the gradient flow.
+        \item Secondly, we want to know in RC networks, the different performance between 
+        zero-padding shortcuts and projection shortcuts on downsampling 
+        layers(including time/memory cost, val accuracy) and weighing the pros and cons of 
+        the two shortcuts to arrive at the most suitable combination. 
+        So I will use two VGG38 RC(no BN, only study RC), one with zero-padding on its downsampling 
+        layers, another with projection on its downsampling layers. Train them and compare the 
+        running time, memory used and val accuracy. 
+    \end{itemize}
+
+}
 }
 
 %% Question 6:
 \newcommand{\questionSix} {
-\youranswer{Question 6 - Briefly draw your conclusions based on the results from the previous sections (what are the take-away messages?) and conclude your report with a recommendation for future work. 
+\youranswer{
+    We firstly find the vanishing gradient problem(VGP) in VGG38 network. Then we go over 
+    the theory of 2 typical methods BN(\cite{ioffe2015batch}) and RC(\cite{he2016deep}), 
+    which help solve VGP. Then we do experiments 
+    on VGG38 with several combination of BN and RC. 
+    By comparing the performance and gradient flow of them, we conclude that the 
+    BN and RC is of help in solving VGP.
+    The trained model with best performance in out 
+    experiments in VGG38 BN+RC with 1e-2 LR. 
 
-Good recommendations for future work also draw on the broader literature (the papers already referenced are good starting points). Great recommendations for future work are not just incremental (an example of an incremental suggestion would be: "we could also train with different learning rates") but instead also identify meaningful questions or, in other words, questions with answers that might be somewhat more generally applicable. 
+    The introduction of shortcuts in RC \cite{he2016deep} prevents the gradient 
+    flow in deep network not to reducing to $0$, thus maintain the update of network. While 
+    the bn layers in BN network \cite{ioffe2015batch} normalize the input mini-batch, 
+    which enables layers share the same distribution, thus 
+    reducing internal covariate shift. 
+    The normalization also helps keep the layer input at the non-saturated region of the 
+    activation layers, which prevents VGP.
+    The bn layers can also maintain the resilience of the network to parameter scale, thus 
+    large LR can be used.
 
-For example, \citep{huang2017densely} end with \begin{quote}``Because of their compact internal representations and reduced feature redundancy, DenseNets may be good feature extractors for various computer vision tasks that build on convolutional features, e.g.,  [4,5].''\end{quote} 
+    Some of our experiments demonstrates same trend with others. Like the VGG38 BN with 1e-3 LR 
+    compared to VGG38 BN with 1e-2 LR. It shows similar results with Figure2 in \cite{ioffe2015batch}, 
+    the BN-x5 and BN-x30. 
+    
+    Either BN or RC can handle 
+    VGP. BN has additional effect on solving overfitting 
+    problems(gap of using BN alone between train and val is bigger than that of using RC alone) 
+    while RC ensures 
+    a better performance of the trained 
+    model(in Table1, the performance of using RC alone is better than that of using BN alone), 
+    and both of them can increase the resilience 
+    of the network to big learning rate(LR). 
 
-while \cite{bengio1993problem} state in their conclusions that \begin{quote}``There remains theoretical questions to be considered,  such as whether the problem with simple gradient descent  discussed in this paper would be observed with  chaotic attractors that are not  hyperbolic.\\\end{quote}
+    Considering the future work, we could increase the number of layers in 
+    the RC network, and then test whether BN can help solve the problem of overfitting by 
+    using one network with RC+BN while the other with RC alone. 
 
-The length of this question description is indicative of the average length of a conclusion section}
+    Inspired by \cite{ioffe2015batch}, when the size of training data is extremely large, 
+    the batch normalization need a big batch to enable its accurate approximation 
+    of the global mean and global variance, which put pressure on hardware. 
+    So is there an alternative that can help reduce hardware requirements for training.
+    Also, when each input instance in a batch varies from each other a lot, the BN may 
+    not help because it only computes the mean value within a batch. We can try to realize 
+    the instance normalization by only calculate the mean of one instance. 
+
+}
 }
 
 %% - - - - - - - - - - - - FIGURES - - - - - - - - - - - - 
@@ -85,7 +336,7 @@ The length of this question description is indicative of the average length of a
 %
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\linewidth]{figures/gradplot_38_watermarked.pdf}
+    \includegraphics[width=\linewidth]{figures/vgg38_experiment_grad_flow.pdf}
     \caption{Gradient Flow on VGG38}
     \label{fig:grad_flow_38}
 \end{figure}
@@ -98,8 +349,8 @@ The length of this question description is indicative of the average length of a
 %
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\linewidth]{example-image-duck}
-    \caption{Training curves for ? ? ?}
+    \includegraphics[width=\linewidth]{figures/BN+RC_training_curve.pdf}
+    \caption{Training curves for BN+RC network with 1e-2 learning rate}
     \label{fig:grad_flow_bestModel}
 \end{figure}
 }
@@ -111,8 +362,8 @@ The length of this question description is indicative of the average length of a
 %
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\linewidth]{example-image-duck}
-    \caption{Gradient Flow on ? ? ?}
+    \includegraphics[width=\linewidth]{figures/BN+RC_1e-2.pdf}
+    \caption{Gradient Flow on BN+RC network with 1e-2 learning rate}
     \label{fig:grad_flow_bestModel}
 \end{figure}
 }
@@ -137,11 +388,11 @@ Question Table 1 - Fill in Table 1 with the results from your experiments on
     \midrule
         VGG08                   & 1e-3 & 60 K      &  1.74      & 51.59     & 1.95     & 46.84 \\
         VGG38                   & 1e-3 & 336 K     &  4.61      & 00.01     & 4.61     & 00.01 \\
-        VGG38 BN                & 1e-3 &     ?     &     ?      &     ?     &    ?     &     ? \\
+        VGG38 BN                & 1e-3 & 339 K     &  1.67      & 52.61     & 1.94     & 47.28 \\
         VGG38 RC                & 1e-3 & 336 K     &  1.33      & 61.52     & 1.84     & 52.32 \\
         VGG38 BN + RC           & 1e-3 & 339 K     &  1.26      & 62.99     & 1.73     & 53.76 \\
         VGG38 BN                & 1e-2 & 339 K     &  1.70      & 52.28     & 1.99     & 46.72 \\
-        VGG38 BN + RC           & 1e-2 &     ?     &     ?      &     ?     &    ?     &     ? \\
+        VGG38 BN + RC           & 1e-2 & 339 K     &  \textbf{0.97}      & \textbf{70.80}     & \textbf{1.48}     & \textbf{61.72} \\
     \bottomrule
     \end{tabular}
     \caption{Experiment results (number of model parameters, Training and Validation loss and accuracy) for different combinations of VGG08, VGG38, Batch Normalisation (BN), and Residual Connections (RC), LR is learning rate.}
